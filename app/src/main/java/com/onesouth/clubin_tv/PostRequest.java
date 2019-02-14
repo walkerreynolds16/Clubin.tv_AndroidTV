@@ -5,6 +5,8 @@ import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -20,7 +22,9 @@ public class PostRequest extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                                .connectTimeout(20, TimeUnit.SECONDS)
+                                .build();
 
         RequestBody body = RequestBody.create(JSON, strings[1]);
         Request request = new Request.Builder()

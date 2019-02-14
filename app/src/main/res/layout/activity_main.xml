@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/version"
+        android:id="@+id/websiteText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:textSize="25sp"
+        android:text="Website"/>
 
-    <Button
-        android:id="@+id/sendTestRequest"
+    <TextView
+        android:id="@+id/websiteURL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get Version"
-        android:onClick="sendTestRequest"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/websiteText"
+        android:layout_marginTop="25dp"
+        android:textSize="25sp"
+        android:text="clubin-tv-mobile.herokuapp.com"/>
+
+    <TextView
+        android:id="@+id/lobbyCodeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lobby_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:layout_below="@+id/websiteURL"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/lobbyCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/lobbyCodeText"
+        android:layout_marginTop="25dp"
+        android:textSize="25sp"/>
 
 
 
-</LinearLayout>
+
+
+
+</RelativeLayout>

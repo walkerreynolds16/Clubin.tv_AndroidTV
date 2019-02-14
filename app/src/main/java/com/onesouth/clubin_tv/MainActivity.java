@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 /*
  * Main Activity class that loads {@link MainFragment}.
@@ -26,19 +27,19 @@ public class MainActivity extends Activity {
     }
 
     public void sendTestRequest(View view){
-        GetRequest req = new GetRequest();
-        String url = "https://clubin-tv-backend.herokuapp.com/getVersion";
-
-        String result;
-        TextView version = findViewById(R.id.version);
-
-
-        try {
-            result = req.execute(url).get();
-            version.setText(result);
-        }catch (Exception e){
-            version.setText("Error in http request");
-        }
+//        GetRequest req = new GetRequest();
+//        String url = "https://clubin-tv-backend.herokuapp.com/getVersion";
+//
+//        String result;
+//        TextView version = findViewById(R.id.version);
+//
+//
+//        try {
+//            result = req.execute(url).get();
+//            version.setText(result);
+//        }catch (Exception e){
+//            version.setText("Error in http request");
+//        }
 
 
     }
@@ -49,9 +50,12 @@ public class MainActivity extends Activity {
         JSONObject data = new JSONObject();
         String[] taskInput = new String[]{url, data.toString()};
 
+        TextView lobbyCodeView = findViewById(R.id.lobbyCode);
+
         String result;
         try {
             result = req.execute(taskInput).get();
+            lobbyCodeView.setText(result);
             Log.i(TAG, result);
         }catch (Exception e){
         }
