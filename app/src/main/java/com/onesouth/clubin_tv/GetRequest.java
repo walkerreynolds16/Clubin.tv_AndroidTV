@@ -7,15 +7,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SendHTTPRequest extends AsyncTask<String, Void, String> {
+public class GetRequest extends AsyncTask<String, Void, String> {
 
     private static final String TAG = "GetVersion";
-
-
-    protected void onPostExecute() {
-        // TODO: check this.exception
-        // TODO: do something with the feed
-    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -32,7 +26,6 @@ public class SendHTTPRequest extends AsyncTask<String, Void, String> {
             Log.i(TAG, res);
 
             return (res);
-
 
         } catch(Exception e){
             Log.i(TAG, e.toString());

@@ -3,26 +3,30 @@ package com.onesouth.clubin_tv;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import org.json.JSONObject;
 
 /*
  * Main Activity class that loads {@link MainFragment}.
  */
 public class MainActivity extends Activity {
 
+    private static final String TAG = "MainActivity";
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        createLobby();
     }
 
     public void sendTestRequest(View view){
-        SendHTTPRequest req = new SendHTTPRequest();
+        GetRequest req = new GetRequest();
         String url = "https://clubin-tv-backend.herokuapp.com/getVersion";
 
         String result;
@@ -34,6 +38,22 @@ public class MainActivity extends Activity {
             version.setText(result);
         }catch (Exception e){
             version.setText("Error in http request");
+        }
+
+
+    }
+
+    public void createLobby(){
+        PostRequest req = new PostRequest();
+        String url = "https://clubin-tv-backend.herokuapp.com/createLobby";
+        JSONObject data = new JSONObject();
+        String[] taskInput = new String[]{url, data.toString()};
+
+        String result;
+        try {
+            result = req.execute(taskInput).get();
+            Log.i(TAG, result);
+        }catch (Exception e){
         }
 
 
