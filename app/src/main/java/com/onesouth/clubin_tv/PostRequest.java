@@ -25,7 +25,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         OkHttpClient client = new OkHttpClient.Builder()
                                 .connectTimeout(20, TimeUnit.SECONDS)
                                 .build();
-
+        Log.i(TAG, strings[0]);
         RequestBody body = RequestBody.create(JSON, strings[1]);
         Request request = new Request.Builder()
                 .url(strings[0])
