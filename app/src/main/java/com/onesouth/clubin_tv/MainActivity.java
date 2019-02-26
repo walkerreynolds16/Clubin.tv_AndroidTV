@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         String lc = createLobby();
-        lobby = new Lobby(lc);
+        lobby = LobbyHandler.getLobby(lc);
 
         Socket socket = lobby.getSocket();
 
@@ -53,12 +53,13 @@ public class MainActivity extends Activity {
 
             String lobbyCode;
             ArrayList<String> memberList = new ArrayList<>();
-            ArrayList<Video> videoQueue = new ArrayList<>();
+            ArrayList<Video> videoQueue;
             Video currentVideo;
 
             Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
 
-            Log.i(TAG + "/update", data.toString());
+            Log.i(TAG + "/update", "UpdateJSON: " + data.toString());
+
 
             try {
                 lobbyCode = data.getString("lobbyCode");
@@ -82,7 +83,20 @@ public class MainActivity extends Activity {
                 currentVideo = new Gson().fromJson(data.get("currentVideo").toString(), Video.class);
                 Log.i(TAG + "/update", "CurrentVideo: " + currentVideo.toString());
 
+                lobby.setVideoQueue(videoQueue);
+                lobby.setCurrentVideo(currentVideo);
+                lobby.setMemberList(memberList);
 
+
+                if(currentVideo.getVideoId() != null && !lobby.isInPlaybackActivity()){
+
+                    Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
+                    myIntent.putExtra("lobbyCode", lobby.getLobbyCode());
+                    startActivity(myIntent);
+
+                    didSendIntent = true;
+                    finish();
+                }
 
             } catch (JSONException e) {
                 Log.i(TAG, "Error in parsing lobby update");
@@ -90,29 +104,6 @@ public class MainActivity extends Activity {
             }
 
 
-        });
-
-        socket.on("Event_videoQueued", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-//                JSONObject data = (JSONObject) args[0];
-
-                Log.i(TAG , "Video Queued");
-
-                try{
-                    Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
-                    myIntent.putExtra("lobby", lobby);
-                    startActivity(myIntent);
-
-                    didSendIntent = true;
-                    finish();
-
-                }catch (Exception e){
-                    Log.i(TAG, "Error in start video");
-                    e.printStackTrace();
-                }
-
-            }
         });
 
     }

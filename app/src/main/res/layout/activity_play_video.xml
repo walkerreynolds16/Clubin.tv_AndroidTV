@@ -2,31 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
-
-    <!--<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView-->
-        <!--android:id="@+id/youtube_player_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-
-        <!--app:videoId=""-->
-        <!--app:autoPlay="true"-->
-        <!--app:showFullScreenButton="false"-->
-        <!--app:showYouTubeButton="false"-->
-        <!--app:showVideoCurrentTime="true"-->
-        <!--app:showVideoDuration="true"-->
-        <!--app:showSeekBar="false"/>-->
-
-    <!--<WebView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/mWebView"></WebView>-->
 
     <news.androidtv.libs.player.YouTubePlayerView
         android:layout_width="match_parent"
-        android:id="@+id/player_youtube"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/player_youtube">
     </news.androidtv.libs.player.YouTubePlayerView>
 
 </RelativeLayout>
