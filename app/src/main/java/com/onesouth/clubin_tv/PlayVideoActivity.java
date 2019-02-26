@@ -1,29 +1,57 @@
 package com.onesouth.clubin_tv;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.media.tv.companionlibrary.TvPlayer;
+import org.json.JSONObject;
+
+import news.androidtv.libs.player.YouTubePlayerView;
 
 public class PlayVideoActivity extends AppCompatActivity {
+
+    private static final String TAG = "PlayVideo";
+
+    private Socket socket;
+
+    private YouTubePlayerView mPlayer;
+
+    private Lobby lobby;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // Get passed values from MainActivity
+        lobby = (Lobby) getIntent().getSerializableExtra("lobby");
+
+        socket = lobby.getSocket();
+
+        mPlayer = (findViewById(R.id.player_youtube));
+
+        setupPlayerCallbacks();
+    }
+
+    public void setupPlayerCallbacks(){
+
+        mPlayer.registerCallback(new TvPlayer.Callback() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onCompleted() {
+                super.onCompleted();
+
+                try{
+                    socket.emit("Event_endVideo", new JSONObject().put("lobbyCode", lobby.getLobbyCode()).put("currentVideo", lobby.getCurrentVideo()));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
             }
+
+
         });
     }
+
 
 }

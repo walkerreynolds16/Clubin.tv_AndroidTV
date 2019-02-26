@@ -2,6 +2,7 @@
 package com.onesouth.clubin_tv;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,9 +31,9 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
 
-    private Socket mSocket;
+    private boolean didSendIntent = false;
 
-    private String lobbyCode;
+    private Lobby lobby;
 
 
 
@@ -41,67 +42,70 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String lc = createLobby();
+        lobby = new Lobby(lc);
 
-        lobbyCode = createLobby();
+        Socket socket = lobby.getSocket();
 
-        mSocket.on("Event_lobbyUpdate", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
 
-                String lobbyCode;
-                ArrayList<String> memberList = new ArrayList<>();
-                ArrayList<Video> videoQueue = new ArrayList<>();
-                Video currentVideo;
+        socket.on("Event_lobbyUpdate", args -> {
+            JSONObject data = (JSONObject) args[0];
 
-                Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
+            String lobbyCode;
+            ArrayList<String> memberList = new ArrayList<>();
+            ArrayList<Video> videoQueue = new ArrayList<>();
+            Video currentVideo;
 
-                Log.i(TAG + "/update", data.toString());
+            Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
 
-                try {
-                    lobbyCode = data.getString("lobbyCode");
-                    Log.i(TAG + "/update", "LobbyCode: " + lobbyCode);
+            Log.i(TAG + "/update", data.toString());
 
-                    videoQueue = new Gson().fromJson(data.get("videoQueue").toString(), listType);
-                    Log.i(TAG + "/update", "VideoQueue: " + videoQueue.toString());
+            try {
+                lobbyCode = data.getString("lobbyCode");
+                Log.i(TAG + "/update", "LobbyCode: " + lobbyCode);
 
-                    JSONArray arr = data.optJSONArray("memberList");
-                    for(int i = 0; i < arr.length(); i++){
-                        try {
-                            memberList.add(arr.getString(i));
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                videoQueue = new Gson().fromJson(data.get("videoQueue").toString(), listType);
+                Log.i(TAG + "/update", "VideoQueue: " + videoQueue.toString());
+
+                JSONArray arr = data.optJSONArray("memberList");
+                for(int i = 0; i < arr.length(); i++){
+                    try {
+                        memberList.add(arr.getString(i));
                     }
-
-                    Log.i(TAG + "/update", "MemberList: " + memberList.toString());
-
-                    currentVideo = new Gson().fromJson(data.get("currentVideo").toString(), Video.class);
-                    Log.i(TAG + "/update", "CurrentVideo: " + currentVideo.toString());
-
-
-                } catch (JSONException e) {
-                    return;
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
+                Log.i(TAG + "/update", "MemberList: " + memberList.toString());
 
+                currentVideo = new Gson().fromJson(data.get("currentVideo").toString(), Video.class);
+                Log.i(TAG + "/update", "CurrentVideo: " + currentVideo.toString());
+
+
+
+            } catch (JSONException e) {
+                Log.i(TAG, "Error in parsing lobby update");
+                e.printStackTrace();
             }
+
+
         });
 
-        mSocket.on("Event_startVideo", new Emitter.Listener() {
+        socket.on("Event_videoQueued", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+//                JSONObject data = (JSONObject) args[0];
 
-                Log.i(TAG + "/startVideo", data.toString());
+                Log.i(TAG , "Video Queued");
 
                 try{
-//                    Log.i(TAG + "/startVideo", data.get("currentVideo").toString());
+                    Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
+                    myIntent.putExtra("lobby", lobby);
+                    startActivity(myIntent);
 
-                    Video currentVideo = new Gson().fromJson(data.get("currentVideo").toString(), Video.class);
-                    Log.i(TAG, "CurrentVideo: " + currentVideo.toString());
-
+                    didSendIntent = true;
+                    finish();
 
                 }catch (Exception e){
                     Log.i(TAG, "Error in start video");
@@ -110,35 +114,16 @@ public class MainActivity extends Activity {
 
             }
         });
+
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
 
-        try{
-            mSocket.emit("Event_disconnection", new JSONObject().put("lobbyCode", lobbyCode));
-        }catch(Exception e){
-            Log.e(TAG, "error in disconnecting");
+        if(!didSendIntent){
+            lobby.disconnectSocket();
         }
-
-        PostRequest req = new PostRequest();
-        String url = Constants.API_LINK + "/deleteLobby";
-
-
-        try {
-            JSONObject data = new JSONObject().put("lobbyCode", lobbyCode);
-            String[] taskInput = new String[]{url, data.toString()};
-
-            String result = req.execute(taskInput).get();
-            Log.i(TAG + "/delLobby", result);
-        }catch (Exception e){
-            Log.i(TAG, "error in deleting lobby");
-            e.printStackTrace();
-        }
-
-        mSocket.disconnect();
-        mSocket.off();
     }
 
     public String createLobby(){
@@ -155,25 +140,15 @@ public class MainActivity extends Activity {
             lobbyCodeView.setText(result);
             Log.i(TAG, result);
 
-            createSocketConnection(result);
-
             return result;
-        }catch (Exception e){}
-
-        return "-1";
-    }
-
-    public void createSocketConnection(String lobbyCode){
-        Log.i(TAG, "trying socket connection");
-        try {
-            mSocket = IO.socket(Constants.API_LINK);
-            mSocket.connect();
-            mSocket.emit("Event_connection", new JSONObject().put("lobbyCode", lobbyCode));
-        } catch (Exception e) {
-            Log.e(TAG, "error in connecting");
+        }catch (Exception e){
+            Log.i(TAG, "Error in making lobby");
             e.printStackTrace();
         }
+
+        return null;
     }
+
 
 
 }
