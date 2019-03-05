@@ -3,9 +3,17 @@ package com.onesouth.clubin_tv;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
@@ -31,7 +39,6 @@ public class MainActivity extends Activity {
     private Lobby lobby;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,21 @@ public class MainActivity extends Activity {
 
         Socket socket = lobby.getSocket();
 
+        VideoView backgroundVideo = findViewById(R.id.backgroundVideo);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.blurry_party3_compressed);
+
+        backgroundVideo.setVideoURI(uri);
+        backgroundVideo.start();
+
+        backgroundVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+
+        View layout = findViewById(R.id.mainLayout);
+        layout.requestFocus();
 
         socket.on("Event_lobbyUpdate", args -> {
             JSONObject data = (JSONObject) args[0];
@@ -82,17 +104,6 @@ public class MainActivity extends Activity {
                 lobby.setCurrentVideo(currentVideo);
                 lobby.setMemberList(memberList);
 
-
-                if(currentVideo.getVideoId() != null && !lobby.isInPlaybackActivity()){
-
-                    Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
-                    myIntent.putExtra("lobbyCode", lobby.getLobbyCode());
-                    startActivity(myIntent);
-
-                    didSendIntent = true;
-                    finish();
-                }
-
             } catch (JSONException e) {
                 Log.i(TAG, "Error in parsing lobby update");
                 e.printStackTrace();
@@ -100,6 +111,28 @@ public class MainActivity extends Activity {
 
 
         });
+
+    }
+
+    public void startWatching(View view){
+        if(lobby.getCurrentVideo() != null && lobby.getCurrentVideo().getVideoId() != null && !lobby.isInPlaybackActivity()){
+            Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
+            myIntent.putExtra("lobbyCode", lobby.getLobbyCode());
+            startActivity(myIntent);
+
+            didSendIntent = true;
+            finish();
+        }else {
+
+            if(lobby.getCurrentVideo() != null && lobby.getCurrentVideo().getVideoId() == null){
+                Toast.makeText(this, "No videos in the Queue", Toast.LENGTH_LONG).show();
+
+            } else if(lobby.getMemberList().size() == 0){
+                Toast.makeText(this, "No one has joined yet", Toast.LENGTH_LONG).show();
+
+            }
+
+        }
 
     }
 
@@ -136,5 +169,23 @@ public class MainActivity extends Activity {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i(TAG, "KeyCode = " + keyCode);
+        Log.i(TAG, "KeyEvent = " + event.toString());
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        Log.i(TAG, "KeyCode = " + keyCode);
+        Log.i(TAG, "KeyEvent = " + event.toString());
+
+
+
+        return true;
+    }
 
 }

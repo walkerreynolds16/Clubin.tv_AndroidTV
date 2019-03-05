@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="activity_button_border">1dp</dimen>
+    <dimen name="activity_button_radius">2dp</dimen>
 </resources>
