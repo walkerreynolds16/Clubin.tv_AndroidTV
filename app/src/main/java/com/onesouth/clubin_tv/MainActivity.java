@@ -55,12 +55,7 @@ public class MainActivity extends Activity {
         backgroundVideo.setVideoURI(uri);
         backgroundVideo.start();
 
-        backgroundVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
+        backgroundVideo.setOnPreparedListener(mp -> mp.setLooping(true));
 
         View layout = findViewById(R.id.mainLayout);
         layout.requestFocus();

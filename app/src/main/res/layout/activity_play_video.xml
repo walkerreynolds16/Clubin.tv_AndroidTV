@@ -5,88 +5,36 @@
     android:orientation="horizontal"
     android:background="@color/default_background">
 
-    <news.androidtv.libs.player.YouTubePlayerView
-        android:layout_width="0dp"
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/player_youtube"
-        android:layout_weight=".70">
+        android:fitsSystemWindows="true">
 
-    </news.androidtv.libs.player.YouTubePlayerView>
+        <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+        <news.androidtv.libs.player.YouTubePlayerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/player_youtube">
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_weight=".20"-->
-        <!--android:id="@+id/sideBarLayout">-->
+        </news.androidtv.libs.player.YouTubePlayerView>
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/watchVideoHomeLayout"-->
-            <!--android:visibility="visible">-->
+        <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/drawer_view"
+            app:headerLayout="@layout/drawer_header_layout">
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/lobbyCodeText"-->
-                <!--android:text="Lobby Code"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:textSize="25sp"-->
-                <!--android:textColor="@color/lb_tv_white"/>-->
+        </com.google.android.material.navigation.NavigationView>
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/lobbyCode"-->
-                <!--android:text="ZXCV"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:textSize="25sp"-->
-                <!--android:layout_marginTop="40dp"-->
-                <!--android:textColor="@color/lb_tv_white"/>-->
-
-            <!--&lt;!&ndash;<Button&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/showConnectedUsersButton"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_below="@+id/lobbyCode"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="Show Users"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:onClick="showUsersLayout"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:background="@drawable/button"/>&ndash;&gt;-->
-
-        <!--</RelativeLayout>-->
-
-
-
-        <!--&lt;!&ndash;<RelativeLayout&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:visibility="invisible"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/showUsersLayout">&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_centerHorizontal="true"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="Users"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="25sp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginTop="10dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textColor="@color/lb_tv_white"/>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<ListView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginTop="50dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginBottom="70dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_marginRight="20dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/showUsersListView">&ndash;&gt;-->
-
-            <!--&lt;!&ndash;</ListView>&ndash;&gt;-->
-
-
-        <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
-
-    <!--</RelativeLayout>-->
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 
 </LinearLayout>
