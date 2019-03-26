@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class fr.bmartel.youtubetv.JavascriptInterface { *; }
+
+-keepclassmembers,allowobfuscation class fr.bmartel.youtubetv.JavascriptInterface.** {
+    <methods>;
+}

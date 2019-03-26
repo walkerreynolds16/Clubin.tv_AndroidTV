@@ -1,11 +1,11 @@
 package com.onesouth.clubin_tv;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +17,6 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import news.androidtv.libs.player.YouTubePlayerView;
@@ -42,6 +41,7 @@ public class PlayVideoActivity extends Activity {
     private Lobby lobby;
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +84,17 @@ public class PlayVideoActivity extends Activity {
         navViewLobbyCode.setText(lobby.getLobbyCode());
 
 
+
     }
 
     public void startCurrentVideo(){
+        lobby.setCurrentVideo(lobby.getVideoQueue().get(0));
+
         lobby.setCurrentDJ(lobby.getCurrentVideo().getMemberName());
         mPlayer.loadVideo(lobby.getCurrentVideo().getVideoId());
         lobby.setSomeoneDJing(true);
+
+        socket.emit("Event_startingVideo", lobby.getLobbyCode());
     }
 
     public void onPlayerFinishVideo(){

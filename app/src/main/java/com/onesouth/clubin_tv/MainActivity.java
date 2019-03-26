@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
     }
 
     public void startWatching(View view){
-        if(lobby.getCurrentVideo() != null && lobby.getCurrentVideo().getVideoId() != null && !lobby.isInPlaybackActivity()){
+        if(lobby.getVideoQueue() != null && lobby.getVideoQueue().size() > 0 && !lobby.isInPlaybackActivity()){
             Intent myIntent = new Intent(MainActivity.this, PlayVideoActivity.class);
             myIntent.putExtra("lobbyCode", lobby.getLobbyCode());
             startActivity(myIntent);
@@ -119,7 +119,8 @@ public class MainActivity extends Activity {
             finish();
         }else {
 
-            if(lobby.getCurrentVideo() != null && lobby.getCurrentVideo().getVideoId() == null){
+//            if(lobby.getCurrentVideo() != null && lobby.getCurrentVideo().getVideoId() == null){
+            if(lobby.getVideoQueue() != null && lobby.getVideoQueue().size() == 0){
                 Toast.makeText(this, "No videos in the Queue", Toast.LENGTH_LONG).show();
 
             } else if(lobby.getMemberList().size() == 0){

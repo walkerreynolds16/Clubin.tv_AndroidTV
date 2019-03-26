@@ -18,9 +18,29 @@
         <news.androidtv.libs.player.YouTubePlayerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/player_youtube">
+            android:id="@+id/player_youtube"/>
 
-        </news.androidtv.libs.player.YouTubePlayerView>
+
+
+        <!--<fr.bmartel.youtubetv.YoutubeTvView-->
+            <!--android:id="@+id/youtube_video"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:yt_autoHide="auto"-->
+            <!--app:yt_autoplay="true"-->
+            <!--app:yt_debug="false"-->
+            <!--app:yt_showControls="none"-->
+            <!--app:yt_showNowPlayingCard="true"-->
+            <!--app:yt_showRelatedVideos="false"-->
+            <!--app:yt_showVideoInfo="false"-->
+            <!--app:yt_videoAnnotation="false"-->
+            <!--app:yt_videoId="95Rzsn-zjr0"-->
+            <!--app:yt_videoQuality="hd1080" />-->
+
+        <!--<WebView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/webView"></WebView>-->
 
         <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
         <com.google.android.material.navigation.NavigationView
