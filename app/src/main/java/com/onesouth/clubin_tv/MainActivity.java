@@ -164,24 +164,4 @@ public class MainActivity extends Activity {
         return null;
     }
 
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.i(TAG, "KeyCode = " + keyCode);
-        Log.i(TAG, "KeyEvent = " + event.toString());
-
-
-        return true;
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.i(TAG, "KeyCode = " + keyCode);
-        Log.i(TAG, "KeyEvent = " + event.toString());
-
-
-
-        return true;
-    }
-
 }

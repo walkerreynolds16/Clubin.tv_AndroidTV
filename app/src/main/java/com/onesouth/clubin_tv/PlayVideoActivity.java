@@ -14,7 +14,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.media.tv.companionlibrary.TvPlayer;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -88,6 +92,7 @@ public class PlayVideoActivity extends Activity {
     }
 
     public void startCurrentVideo(){
+        Log.i(TAG, "***CurrentVideo: " + lobby.getVideoQueue().get(0).toString());
         lobby.setCurrentVideo(lobby.getVideoQueue().get(0));
 
         lobby.setCurrentDJ(lobby.getCurrentVideo().getMemberName());
@@ -154,6 +159,31 @@ public class PlayVideoActivity extends Activity {
                 lobby.setCurrentVideo(currentVideo);
 
                 mPlayer.loadVideo(currentVideo.getVideoId());
+
+            }catch (Exception e){
+                Log.i(TAG, "Error in start video");
+                e.printStackTrace();
+            }
+        });
+
+        socket.on("Event_skipVideo", args -> {
+            JSONObject data = (JSONObject) args[0];
+
+            try{
+                ArrayList<String> skippers = new ArrayList<>();
+
+                JSONArray arr = data.optJSONArray("skippers");
+                for(int i = 0; i < arr.length(); i++){
+                    try {
+                        skippers.add(arr.getString(i));
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Toast.makeText(this, "The Video is being skipped by " + skippers.toString(), Toast.LENGTH_LONG).show();
+                onPlayerFinishVideo();
 
             }catch (Exception e){
                 Log.i(TAG, "Error in start video");

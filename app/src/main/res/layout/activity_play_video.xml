@@ -15,11 +15,11 @@
         android:fitsSystemWindows="true">
 
         <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+
         <news.androidtv.libs.player.YouTubePlayerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/player_youtube"/>
-
 
 
         <!--<fr.bmartel.youtubetv.YoutubeTvView-->
@@ -55,6 +55,8 @@
         </com.google.android.material.navigation.NavigationView>
 
     </androidx.drawerlayout.widget.DrawerLayout>
+
+
 
 
 </LinearLayout>
