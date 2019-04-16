@@ -4,21 +4,6 @@
     <item
         android:id="@+id/menu_item1"
         android:icon="@drawable/skip_video"
-        android:title="Skip Video"
-        android:nextFocusDown="@+id/menu_item2"/>
-    <item
-        android:id="@+id/menu_item2"
-        android:icon="@drawable/checkmark"
-        android:title="Menu Item #2"
-        android:nextFocusDown="@+id/menu_item3"/>
-    <item
-        android:id="@+id/menu_item3"
-        android:icon="@drawable/checkmark"
-        android:title="Menu Item #3"
-        android:nextFocusDown="@+id/menu_item4"/>
-    <item
-        android:id="@+id/menu_item4"
-        android:icon="@drawable/checkmark"
-        android:title="Menu Item #4" />
+        android:title="Skip Video"/>
 
 </menu>

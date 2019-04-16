@@ -181,12 +181,13 @@ public class PlayVideoActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
+                Log.i(TAG, "Skipping Video");
 
-                Toast.makeText(this, "The Video is being skipped by " + skippers.toString(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(PlayVideoActivity.this, "The Video is being skipped ", Toast.LENGTH_LONG).show();
                 onPlayerFinishVideo();
 
             }catch (Exception e){
-                Log.i(TAG, "Error in start video");
+                Log.i(TAG, "Error in skipping video");
                 e.printStackTrace();
             }
         });
@@ -201,16 +202,25 @@ public class PlayVideoActivity extends Activity {
 
         switch(event.getKeyCode()){
             case(KEYCODE_DPAD_UP):
-                return super.dispatchKeyEvent(event);
+                if(drawerLayout.isDrawerOpen(GravityCompat.END)){
+                    return super.dispatchKeyEvent(event);
+                }
+
 
             case(KEYCODE_DPAD_DOWN):
-                return super.dispatchKeyEvent(event);
+                if(drawerLayout.isDrawerOpen(GravityCompat.END)){
+                    return super.dispatchKeyEvent(event);
+                }
 
             case(KEYCODE_DPAD_RIGHT):
-                return super.dispatchKeyEvent(event);
+                if(drawerLayout.isDrawerOpen(GravityCompat.END)){
+                    return super.dispatchKeyEvent(event);
+                }
 
             case(KEYCODE_DPAD_LEFT):
-                return super.dispatchKeyEvent(event);
+                if(drawerLayout.isDrawerOpen(GravityCompat.END)){
+                    return super.dispatchKeyEvent(event);
+                }
 
             case(KEYCODE_DPAD_CENTER):
                 return super.dispatchKeyEvent(event);
