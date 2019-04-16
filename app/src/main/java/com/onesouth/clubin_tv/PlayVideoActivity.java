@@ -193,6 +193,13 @@ public class PlayVideoActivity extends Activity {
         });
     }
 
+    @Override
+    public void onDestroy(){
+        lobby.disconnectSocket();
+
+        super.onDestroy();
+    }
+
 
 
     @Override

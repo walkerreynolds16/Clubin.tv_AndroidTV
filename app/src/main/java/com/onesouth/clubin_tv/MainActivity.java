@@ -134,11 +134,11 @@ public class MainActivity extends Activity {
 
     @Override
     public void onDestroy(){
-        super.onDestroy();
-
         if(!didSendIntent){
             lobby.disconnectSocket();
         }
+
+        super.onDestroy();
     }
 
     public String createLobby(){
