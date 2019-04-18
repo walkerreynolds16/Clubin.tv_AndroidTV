@@ -61,8 +61,8 @@ public class YouTubePlayerView extends AbstractWebPlayer implements PlaybackCont
 
     public void loadVideo(String videoId) {
         mVideoId = videoId;
-        Log.i("youtube player", "https://www.youtube.com/embed/" + videoId + "?origin=www.clubin.club");
-        setVideoUrlTo("https://www.youtube.com/embed/" + videoId + "?origin=www.clubin.club");
+        Log.i("youtube player", "https://www.youtube.com/embed/" + videoId + "?origin=http://www.clubin.club");
+        setVideoUrlTo("https://www.youtube.com/embed/" + videoId + "?origin=http://www.clubin.club");
 
     }
 

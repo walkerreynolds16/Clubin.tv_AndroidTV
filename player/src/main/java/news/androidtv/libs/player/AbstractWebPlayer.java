@@ -123,7 +123,10 @@ public abstract class AbstractWebPlayer extends WebView implements TvPlayer {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                loadUrl(url);
+//                loadUrl(url);
+                String dataString = "<body style='margin:0;padding:0;'><iframe height='100%' width='100%' src=\"" + url + "\" frameborder='0' autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></body>";
+                loadDataWithBaseURL("http://www.clubin.club", dataString, null, null, "http://www.clubin.club");
+
             }
         });
 
