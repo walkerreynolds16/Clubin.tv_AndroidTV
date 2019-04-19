@@ -153,6 +153,7 @@ public class PlayVideoActivity extends Activity {
     public void setupSocketListeners(){
         socket.on("Event_startVideo", args -> {
             JSONObject data = (JSONObject) args[0];
+            Log.i(TAG, "startVideoData = " + data.toString());
 
             try{
                 Video currentVideo = new Gson().fromJson(data.get("currentVideo").toString(), Video.class);
