@@ -85,6 +85,7 @@ public abstract class AbstractWebPlayer extends WebView implements TvPlayer {
 
             @Override
             public void onReceivedDuration(long duration) {
+                Log.i(TAG, "receivedDuration = " + duration);
                 mDuration = duration;
             }
 
@@ -123,9 +124,12 @@ public abstract class AbstractWebPlayer extends WebView implements TvPlayer {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-//                loadUrl(url);
-                String dataString = "<body style='margin:0;padding:0;'><iframe height='100%' width='100%' src=\"" + url + "\" frameborder='0' autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></body>";
-                loadDataWithBaseURL("http://www.clubin.club", dataString, null, null, "http://www.clubin.club");
+                //For normal use
+                loadUrl(url);
+
+                //Iframe for music videos
+                //String dataString = "<body style='margin:0;padding:0;'><iframe height='100%' width='100%' src=\"" + url + "\" frameborder='0' autoplay; allow=\"autoplay\"; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe></body>";
+                //loadDataWithBaseURL("http://www.clubin.club", dataString, null, null, "http://www.clubin.club");
 
             }
         });

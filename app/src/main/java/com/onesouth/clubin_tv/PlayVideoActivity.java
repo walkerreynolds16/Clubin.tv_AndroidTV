@@ -103,6 +103,7 @@ public class PlayVideoActivity extends Activity {
     }
 
     public void onPlayerFinishVideo(){
+        mPlayer.skip(1000000000);
         try{
             JSONObject data = new JSONObject();
             data.put("lobbyCode", lobby.getLobbyCode());
@@ -129,7 +130,10 @@ public class PlayVideoActivity extends Activity {
             public void onCompleted() {
                 super.onCompleted();
 
-                onPlayerFinishVideo();
+                //if someone is DJing, then there wasn't a skip
+                if(lobby.isSomeoneDJing()){
+                    onPlayerFinishVideo();
+                }
             }
 
 
